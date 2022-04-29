@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.divine.sbdemo.daos.UserDao">
+    <resultMap id="UserMap" type="User">
+        <result column="id" property="userId"/>
+        <result column="user_name" property="userName"/>
+        <result column="user_pass" property="userPass"/>
+        <result column="user_phone" property="userPhone"/>
+        <result column="user_ver_code" property="userVerCode"/>
+    </resultMap>
+
+    <insert id="insertUser" parameterType="User">
+        insert into user_info (id, user_name, user_pass, user_phone, user_ver_code)
+        values (#{userId}, #{userName}, #{userPass}, #{userPhone}, #{userVerCode})
+    </insert>
+    <insert id="insertUserPhone" parameterType="User">
+        insert into user_info (user_phone, user_ver_code)
+        values (#{userId}, #{userPhone}, #{userVerCode})
+    </insert>
+    <update id="updateUserPass" parameterType="User">
+        update user_info
+        set user_name=#{userName},
+            user_pass=#{userPass}
+        where user_phone = #{userPhone}
+    </update>
+    <update id="updateUserPhoneVer" parameterType="User">
+        update user_info
+        set #{userId},=#{userVerCode}
+        where user_phone = #{userPhone}
+    </update>
+    <update id="updateUserInfo" parameterType="User">
+        update user_info
+        set user_name=#{userName},
+            user_pass=#{userPass}
+        where user_phone = #{userPhone}
+    </update>
+    <select id="getUserByName" parameterType="String" resultType="User" resultMap="UserMap">
+        select *
+        from user_info
+        where user_name = #{userName}
+    </select>
+    <select id="getUserByPhone" parameterType="String" resultType="User" resultMap="UserMap">
+        select *
+        from user_info
+        where user_phone = #{userPhone}
+    </select>
+</mapper>
